@@ -1,0 +1,140 @@
+---
+output:
+  pdf_document:
+    keep_tex: yes
+    latex_engine: xelatex
+  word_document: default
+  html_document: default
+mainfont: Verdana
+fontsize: 12pt
+classoption: landscape
+geometry: "left=1cm,right=1cm,top=0.6cm,bottom=0.6cm"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment=NA)
+```
+
+```{r}
+# A Prefix nulling hook.
+
+# Make sure to keep the default for normal processing.
+default_output_hook <- knitr::knit_hooks$get("output")
+
+# Output hooks handle normal R console output.
+knitr::knit_hooks$set( output = function(x, options) {
+
+  comment <- knitr::opts_current$get("comment")
+  if( is.na(comment) ) comment <- ""
+  can_null <- grepl( paste0( comment, "\\s*\\[\\d?\\]" ),
+                     x, perl = TRUE)
+  do_null <- isTRUE( knitr::opts_current$get("null_prefix") )
+  if( can_null && do_null ) {
+    # By default R print output aligns at the right brace.
+    align_index <- regexpr( "\\]", x )[1] - 1
+    # Two cases: start or newline
+    re <- paste0( "^.{", align_index, "}\\]")
+    rep <- comment
+    x <- gsub( re, rep,  x )
+    re <- paste0( "\\\n.{", align_index, "}\\]")
+    rep <- paste0( "\n", comment )
+    x <- gsub( re, rep,  x )
+  }
+
+  default_output_hook( x, options )
+
+})
+
+knitr::opts_template$set("kill_prefix"=list(comment=NA, null_prefix=TRUE))
+```
+
+```{r echo=FALSE, message=FALSE}
+source('201910.R')
+```
+
+## TIMESHEET - project Name
+**Company:** Acme inc. | **Member of Staff:** FirstName LastName | **Employed:** full-time
+
+**Year:** 2019 | **Month:** October
+```{r 2020 10, echo=FALSE, null_prefix=TRUE}
+kable(print_201910, "latex", booktabs = T) %>% 
+  kable_styling(latex_options=c("scale_down","striped"))
+
+kable(q, "latex", booktabs = T, align = "r") %>% 
+  kable_styling(latex_options= c("scale_down","striped"))
+```
+**Total project related hours:** `r total_ph_201910 ` | **Total worked hours:** `r total_wh_201910 `  
+    
+\  
+\
+### Date and signature | Employee  
+\
+\
+Date and signature | Project Manager - Supervisor  
+
+\  
+\
+![](logo.png)
+
+\newpage
+
+```{r echo=FALSE, message=FALSE}
+source('201911.R')
+```
+
+# TIMESHEET - project Name
+**Company:** Acme inc. | **Member of Staff:** FirstName LastName | **Employed:** full-time
+
+**Year:** 2019 | **Month:** November
+```{r 2020 11, echo=FALSE, null_prefix=TRUE}
+kable(print_201911, "latex", booktabs = T) %>% 
+  kable_styling(latex_options=c("scale_down","striped"))
+
+kable(q, "latex", booktabs = T, align = "r") %>% 
+  kable_styling(latex_options= c("scale_down","striped"))
+```
+**Total project related hours:** `r total_ph_201911 ` | **Total worked hours:** `r total_wh_201911 `  
+    
+\  
+\
+Date and signature | Employee  
+\
+\
+Date and signature | Project Manager - Supervisor  
+
+\  
+\
+![](logo.png)
+
+\newpage
+```{r echo=FALSE, message=FALSE}
+source('201912.R')
+```
+
+# TIMESHEET - project Name
+**Company:** Acme inc. | **Member of Staff:** FirstName LastName | **Employed:** full-time
+
+**Year:** 2019 | **Month:** December
+```{r 2020 12, echo=FALSE, null_prefix=TRUE}
+kable(print_201912, "latex", booktabs = T) %>% 
+  kable_styling(latex_options=c("scale_down","striped"))
+
+kable(q, "latex", booktabs = T, align = "r") %>% 
+  kable_styling(latex_options= c("scale_down","striped"))
+```
+**Total project related hours:** `r total_ph_201912 ` | **Total worked hours:** `r total_wh_201912 `  
+    
+\  
+\
+Date and signature | Employee  
+\
+\
+Date and signature | Project Manager - Supervisor  
+
+\  
+\
+![](logo.png)
+
+\newpage
+
+
